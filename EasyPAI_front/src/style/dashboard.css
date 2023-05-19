@@ -64,6 +64,10 @@
   min-width: 100%;
 }
 
+.expenses-container {
+  padding: 0;
+}
+
 .account-number {
   font-size: 0.6em;
 }
@@ -126,13 +130,13 @@
 }
 
 .expenses-amount {
-  width: 100%;
-  text-align: center;
-  font-size: 1.1em;
+  min-width: 100%;
+  text-align: right;
+  font-size: 0.9em;
   font-weight: 800;
 }
 
 
 .debug * {
-  border: 1px solid red;
+  border: 1px solid #646cff;
 }
