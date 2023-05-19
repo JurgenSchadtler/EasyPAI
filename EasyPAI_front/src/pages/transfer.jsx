@@ -43,6 +43,29 @@ const Transfer = () => {
     fetchData();
   }, []);
 
+  const postRequest = async () => {
+    try {
+      const response = await axios.post(
+        'https://mgjglkldxzgntjldmpgn.supabase.co/rest/v1/transfers',
+        {
+          ammount: parseInt(amount),
+          description: 'Pago a Luis'
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            apikey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1namdsa2xkeHpnbnRqbGRtcGduIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODQ1MTUzOTMsImV4cCI6MjAwMDA5MTM5M30.12PsI2OKWJVKXOACa4dXV6jU-nAO8QUVDKooqnjQ1Xc',
+            Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1namdsa2xkeHpnbnRqbGRtcGduIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODQ1MTUzOTMsImV4cCI6MjAwMDA5MTM5M30.12PsI2OKWJVKXOACa4dXV6jU-nAO8QUVDKooqnjQ1Xc',
+            Prefer: 'return=minimal'
+          }
+        }
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
   const navigate = useNavigate();
 
   const onKeyboardClick = (symbol) => {
@@ -101,7 +124,7 @@ const Transfer = () => {
         </Container>
       </div>
 
-      <button className="transfer-button">Confirm</button>
+      <button className="transfer-button" onClick={postRequest}>Confirm</button>
 
       <div className="keyboard-div">
         <Container>
