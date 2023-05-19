@@ -1,4 +1,3 @@
-import React from "react";
 import Layout from "../components/layout";
 import "../style/dashboard.css";
 
@@ -14,6 +13,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
 import { BsBank } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const color_palette = [
@@ -26,13 +26,20 @@ const Dashboard = () => {
   ];
 
   const saved_accounts = [
-    "José Luis",
+    "José Luis Lobera",
     "Miles Archer",
     "Stella Blake",
     "Aurora Cruz",
     "Leo Donovan",
     "Scarlett Knight",
   ];
+
+  const navigate = useNavigate();
+
+  const onCardClick = (n) => {
+    console.log(`Click on card no. ${n}`);
+	navigate('/transfer');
+  };
 
   return (
     <Layout>
@@ -55,20 +62,41 @@ const Dashboard = () => {
             className="mySwiper"
           >
             {[0, 1, 2, 3, 4, 5].map((n) => (
-              <SwiperSlide style={{ backgroundColor: color_palette[n] }}>
-                <img
-                  src={avatars.avatars[n]}
-                  height="60px"
-                  style={{ marginRight: "0.5rem" }}
-                />
-                <span className="text-with-shadow">{saved_accounts[n]}</span>
+              <SwiperSlide
+                style={{ backgroundColor: color_palette[n] }}
+                key={`key-${n}`}
+                className=""
+                onClick={() => onCardClick(n)}
+              >
+                <Container>
+                  <Row>
+                    <Col xs={3}>
+                      <img
+                        src={avatars.avatars[n]}
+                        height="60px"
+                        style={{ marginRight: "0.5rem" }}
+                      />
+                    </Col>
+                    <Col
+                      xs={9}
+                      style={{ display: "flex", flexDirection: "column" }}
+                    >
+                      <span className="text-with-shadow">
+                        {saved_accounts[n]}
+                      </span>
+                      <span className="account-number text-with-shadow">
+                        **** 4832
+                      </span>
+                    </Col>
+                  </Row>
+                </Container>
               </SwiperSlide>
             ))}
           </Swiper>
         </>
 
         <Container fluid style={{ marginTop: "1rem" }} className="">
-          <Row className="expenses-row">
+          <Row>
             <Col xs={6}>
               <p className="expenses-header">Expenses</p>
             </Col>
@@ -78,54 +106,26 @@ const Dashboard = () => {
               </div>
             </Col>
           </Row>
-          <Row className="expenses-row">
-            <Col xs={3}>
-              <div className="expenses-icon-div">
-                <BsBank className="expenses-icon" />
-              </div>
-            </Col>
-            <Col xs={6} className="expenses-info-div">
-              <div>
-                <p className="expenses-title">Grocery</p>
-                <p className="expenses-date">18-05-2023</p>
-              </div>
-            </Col>
-            <Col xs={3} className="expenses-info-div">
-              <p className="expenses-amount">$25</p>
-            </Col>
-          </Row>
-		  <Row className="expenses-row">
-            <Col xs={3}>
-              <div className="expenses-icon-div">
-                <BsBank className="expenses-icon" />
-              </div>
-            </Col>
-            <Col xs={6} className="expenses-info-div">
-              <div>
-                <p className="expenses-title">Cinema</p>
-                <p className="expenses-date">16-05-2023</p>
-              </div>
-            </Col>
-            <Col xs={3} className="expenses-info-div">
-              <p className="expenses-amount">$9.9</p>
-            </Col>
-          </Row>
-		  <Row className="expenses-row">
-            <Col xs={3}>
-              <div className="expenses-icon-div">
-                <BsBank className="expenses-icon" />
-              </div>
-            </Col>
-            <Col xs={6} className="expenses-info-div">
-              <div>
-                <p className="expenses-title">Income</p>
-                <p className="expenses-date">10-05-2023</p>
-              </div>
-            </Col>
-            <Col xs={3} className="expenses-info-div">
-              <p className="expenses-amount">$69</p>
-            </Col>
-          </Row>
+          <div className="expenses-div">
+            {[0, 1, 2, 3, 4, 5, 6].map((n) => (
+              <Row className="expenses-row" key={`key-${n}`}>
+                <Col xs={3}>
+                  <div className="expenses-icon-div">
+                    <BsBank className="expenses-icon" />
+                  </div>
+                </Col>
+                <Col xs={6} className="expenses-info-div">
+                  <div>
+                    <p className="expenses-title">Grocery</p>
+                    <p className="expenses-date">18-05-2023</p>
+                  </div>
+                </Col>
+                <Col xs={3} className="expenses-info-div">
+                  <p className="expenses-amount">$25</p>
+                </Col>
+              </Row>
+            ))}
+          </div>
         </Container>
       </div>
     </Layout>

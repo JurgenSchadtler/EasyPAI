@@ -1,0 +1,131 @@
+.transfer-div {
+    background-color: #646cff;
+    min-height: 100vh;
+    min-width: 100vw;
+}
+
+.transfer-header-div {
+    min-width: 100vw;
+    height: 10vh;
+}
+
+.back-icon {
+    color: #f9f9f9;
+    font-size: 2em;
+    margin: 0.5em;
+}
+
+.back-icon:hover {
+    background-color: #f9f9f927;
+    border-radius: 100%;
+}
+
+.transfer-main-div {
+    background-color: #F1F5FB;
+    min-width: 100vw;
+    min-height: 90vh;
+    border-radius: 50px 50px 0 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.tranfer-header {
+    font-size: 1.3em;
+    font-weight: 700;
+    text-align: center;
+    padding-top: 2em;
+}
+
+.transfer-input-div {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    height: 20vh;
+    border-bottom: 1px solid #9B9BA0;
+    width: 80vw;
+}
+
+.transfer-input-amount {
+    text-align: center;
+    font-size: 3em;
+}
+
+.tranfer-dollar-sign {
+    color: #9B9BA0;
+}
+
+.tranfer-user-card-div {
+    margin-top: 1em;
+    background-color: #f9f9f9;
+    min-width: 80vw;
+    height: 9vh;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.card-text {
+    border-radius: 18px;
+    font-size: 22px;
+    font-weight: bold;
+    color: #213547;
+}
+
+.account-number {
+    font-size: 1em;
+}
+
+.transfer-button {
+    color: #f9f9f9;
+    background-color: #213547;
+
+    margin-top: 1em;
+    min-width: 80vw;
+    height: 8vh;
+    border-radius: 15px;
+
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.transfer-button:hover {
+    color: #213547;
+    background-color: #f9f9f9;
+}
+
+.keyboard-div {
+    margin-top: 2em;
+    display: flex;
+    justify-content: center;
+}
+
+.keyboard-col {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 0.5em;
+}
+
+.keyboard-key-div {
+    width: 3em;
+    height: 3em;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.keyboard-div p {
+    height: 100%;
+    margin: 0;
+    font-size: 1.3em;
+    font-weight: 700;
+    text-align: center;
+}
+
+.keyboard-key-div:hover { 
+    background-color: #f9f9f9;
+    border-radius: 100%;
+}
