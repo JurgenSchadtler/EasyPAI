@@ -20,7 +20,6 @@ const API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsIn
 const USER_URL = 'https://mgjglkldxzgntjldmpgn.supabase.co/rest/v1/user?select=*';
 
 const Transfer = () => {
-  const balance = 2090.2;
   const [amount, setAmount] = useState("0.00");
   const [canTransfer, setCanTransfer] = useState(true);
   const [user, setUser] = useState([]);
@@ -115,7 +114,7 @@ const Transfer = () => {
       currentAmount = currentAmount * 10 + symbol / 100;
     }
 
-    currentAmount > balance ? setCanTransfer(false) : setCanTransfer(true);
+    currentAmount > user[0]?.balance ? setCanTransfer(false) : setCanTransfer(true);
     setAmount(formatAmount(currentAmount));
   };
 
