@@ -28,8 +28,7 @@ const Dashboard = () => {
     "#8c84ff",
     "#a798ff",
     "#bfaeff",
-    "#d8d3ff",
-    "#f0efff",
+    "#d8d3ff"
   ];
 
   const [data, setData] = useState([]);
@@ -40,8 +39,7 @@ const Dashboard = () => {
     "Miles Archer",
     "Stella Blake",
     "Aurora Cruz",
-    "Leo Donovan",
-    "Scarlett Knight",
+    "Leo Donovan"
   ];
 
   const navigate = useNavigate();
@@ -117,7 +115,7 @@ const Dashboard = () => {
             modules={[EffectCards]}
             className="mySwiper"
           >
-            {[0, 1, 2, 3, 4, 5].map((n) => (
+            {[0, 1, 2, 3, 4].map((n) => (
               <SwiperSlide
                 style={{ backgroundColor: color_palette[n] }}
                 key={`key-${n}`}
