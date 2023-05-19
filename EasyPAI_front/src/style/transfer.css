@@ -47,6 +47,18 @@
     width: 80vw;
 }
 
+.transfer-error .transfer-input-div{
+    border-bottom: 1px solid #EF7A85;
+}
+
+.transfer-error span {
+    color: #EF7A85;
+}
+
+.transfer-error .transfer-balance {
+    color: #EF7A85;
+}
+
 .transfer-input-amount {
     text-align: center;
     font-size: 3em;
@@ -54,6 +66,13 @@
 
 .tranfer-dollar-sign {
     color: #9B9BA0;
+}
+
+.transfer-balance {
+    font-weight: 700;
+    text-align: right;
+    color: #9B9BA0;
+    width: 100%;
 }
 
 .tranfer-user-card-div {
@@ -129,3 +148,4 @@
     background-color: #f9f9f9;
     border-radius: 100%;
 }
+

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { BiArrowBack } from "react-icons/bi";
 import { FiDelete } from "react-icons/fi";
 
@@ -13,6 +13,10 @@ import Col from "react-bootstrap/Col";
 import avatars from "../resources/avatars.json";
 
 const Transfer = () => {
+  const balance = 2090.2;
+  const [amount, setAmount] = useState("0.00");
+  const [canTransfer, setCanTransfer] = useState(true);
+
   const navigate = useNavigate();
 
   const onReturnClick = () => {
@@ -20,10 +24,28 @@ const Transfer = () => {
   };
 
   const onKeyboardClick = (symbol) => {
-	console.log(symbol)
-  }
+    let currentAmount = parseFloat(amount.replace(/,/g, "")); // Remove comma and parse as float
 
-  const symbols = [1, 2, 3, 4, 5, 6, 7, 8, 9, ".", 0, -1];
+    if (symbol === -1) {
+      // Handle special case for decimal point
+      currentAmount = currentAmount / 10;
+    } else {
+      currentAmount = currentAmount * 10 + symbol / 100;
+    }
+
+    currentAmount > balance ? setCanTransfer(false) : setCanTransfer(true);
+    setAmount(formatAmount(currentAmount));
+  };
+
+  const formatAmount = (amount) => {
+    // Convert the amount to a formatted string with comma for thousands separator
+    const formattedAmount = amount
+      .toFixed(2)
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return formattedAmount;
+  };
+
+  const symbols = [1, 2, 3, 4, 5, 6, 7, 8, 9, "", 0, -1];
 
   return (
     <div className="transfer-div">
@@ -33,10 +55,18 @@ const Transfer = () => {
       <div className="transfer-main-div">
         <h1 className="tranfer-header">Send Money</h1>
 
-        <div className="transfer-input-div">
-          <p className="transfer-input-amount">
-            <span className="tranfer-dollar-sign">$</span>599.20
-          </p>
+        <div
+          className={`${
+            canTransfer ? "" : "transfer-error"
+          }`}
+        >
+          <div className="transfer-input-div">
+            <p className="transfer-input-amount">
+              <span className="tranfer-dollar-sign">$</span>
+              {amount}
+            </p>
+          </div>
+          <p className="transfer-balance">Balance: ${formatAmount(balance)}</p>
         </div>
 
         <div className="tranfer-user-card-div">
@@ -64,7 +94,10 @@ const Transfer = () => {
             <Row>
               {symbols.map((symbol, i) => (
                 <Col xs={4} key={`key-${i}`} className="keyboard-col">
-                  <div className="keyboard-key-div" onClick={() => onKeyboardClick(symbol)}>
+                  <div
+                    className="keyboard-key-div"
+                    onClick={() => onKeyboardClick(symbol)}
+                  >
                     <p>{symbol !== -1 ? symbol : <FiDelete />}</p>
                   </div>
                 </Col>
