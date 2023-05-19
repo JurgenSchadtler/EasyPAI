@@ -100,12 +100,12 @@ const Dashboard = () => {
   return (
     <Layout>
       <div className="dashboard-div">
-        <h1 className="dashboard-h1">{user[0].name}</h1>
+        <h1 className="dashboard-h1">{user[0]?.name}</h1>
         <p className="dashboard-welcome-p">Welcome Back!</p>
 
         <div className="dashboard-balance-div">
           <p className="balance-tag">Current balance</p>
-          <p className="balance-value">{user[0].balance.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</p>
+          <p className="balance-value">{user[0]?.balance.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</p>
         </div>
 
         <p className="dashboard-send-money-tag">Send money to</p>
