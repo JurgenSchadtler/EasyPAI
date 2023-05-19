@@ -19,6 +19,7 @@
     "react-icons": "^4.8.0",
     "react-router-dom": "^6.11.2",
     "sonner": "^0.3.5",
+    "supabase": "^1.62.3",
     "swiper": "^9.3.2"
   },
   "devDependencies": {

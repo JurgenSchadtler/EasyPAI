@@ -3,21 +3,22 @@ import { BiArrowBack } from "react-icons/bi";
 import { FiDelete } from "react-icons/fi";
 import axios from "axios";
 
-
 import "../style/transfer.css";
 import "../style/index.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import { Toaster, toast } from 'sonner'
+import { Toaster, toast } from "sonner";
 
 import avatars from "../resources/avatars.json";
 import Layout2 from "../components/layout2";
 
-const API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1namdsa2xkeHpnbnRqbGRtcGduIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODQ1MTUzOTMsImV4cCI6MjAwMDA5MTM5M30.12PsI2OKWJVKXOACa4dXV6jU-nAO8QUVDKooqnjQ1Xc';
-const USER_URL = 'https://mgjglkldxzgntjldmpgn.supabase.co/rest/v1/user?select=*';
+const API_KEY =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1namdsa2xkeHpnbnRqbGRtcGduIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODQ1MTUzOTMsImV4cCI6MjAwMDA5MTM5M30.12PsI2OKWJVKXOACa4dXV6jU-nAO8QUVDKooqnjQ1Xc";
+const USER_URL =
+  "https://mgjglkldxzgntjldmpgn.supabase.co/rest/v1/user?select=*";
 
 const Transfer = () => {
   const [amount, setAmount] = useState("0.00");
@@ -25,19 +26,22 @@ const Transfer = () => {
   const [user, setUser] = useState([]);
   const navigate = useNavigate();
 
+  const location = useLocation();
+  const { savedAccount, accNum } = location.state;
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(USER_URL, {
           headers: {
             apikey: API_KEY,
-            Authorization: `Bearer ${API_KEY}`
-          }
+            Authorization: `Bearer ${API_KEY}`,
+          },
         });
 
         setUser(response.data);
       } catch (error) {
-        console.error('Error:', error);
+        console.error("Error:", error);
       }
     };
 
@@ -48,61 +52,55 @@ const Transfer = () => {
     postRequest(); // Call the first action
   };
 
-
   const postRequest = async () => {
     try {
       if (user[0]?.balance >= amount) {
         const response = await axios.post(
-          'https://mgjglkldxzgntjldmpgn.supabase.co/rest/v1/transfers',
+          "https://mgjglkldxzgntjldmpgn.supabase.co/rest/v1/transfers",
           {
             ammount: parseInt(amount),
-            description: 'Pago a Luis'
+            description: `Pago a ${savedAccount}`,
           },
           {
             headers: {
-              'Content-Type': 'application/json',
+              "Content-Type": "application/json",
               apikey: API_KEY,
               Authorization: `Bearer ${API_KEY}`,
-              Prefer: 'return=minimal'
-            }
+              Prefer: "return=minimal",
+            },
           }
         );
 
         const newBalance = user[0]?.balance - parseInt(amount);
 
-
         // Update user table
         const updateResponse = await axios.patch(
-          'https://mgjglkldxzgntjldmpgn.supabase.co/rest/v1/user?id=eq.1',
+          "https://mgjglkldxzgntjldmpgn.supabase.co/rest/v1/user?id=eq.1",
           {
-            balance: newBalance
+            balance: newBalance,
           },
           {
             headers: {
-              'Content-Type': 'application/json',
+              "Content-Type": "application/json",
               apikey: API_KEY,
               Authorization: `Bearer ${API_KEY}`,
-              Prefer: 'return=minimal'
-            }
+              Prefer: "return=minimal",
+            },
           }
         );
 
-        toast.success('Transaction successful!'); // Call the second action
+        toast.success("Transaction successful!"); // Call the second action
 
-        
         setTimeout(() => {
-          navigate('/');
+          navigate("/");
         }, 2000); // 2000 milliseconds (2 seconds)
       } else {
-        toast.error('Insuficient funds')
+        toast.error("Insuficient funds");
       }
-
     } catch (error) {
-      console.error('Error:', error);
+      console.error("Error:", error);
     }
   };
-
-
 
   const onKeyboardClick = (symbol) => {
     let currentAmount = parseFloat(amount.replace(/,/g, "")); // Remove comma and parse as float
@@ -114,7 +112,9 @@ const Transfer = () => {
       currentAmount = currentAmount * 10 + symbol / 100;
     }
 
-    currentAmount > user[0]?.balance ? setCanTransfer(false) : setCanTransfer(true);
+    currentAmount > user[0]?.balance
+      ? setCanTransfer(false)
+      : setCanTransfer(true);
     setAmount(formatAmount(currentAmount));
   };
 
@@ -139,7 +139,13 @@ const Transfer = () => {
             {amount}
           </p>
         </div>
-        <p className="transfer-balance">Balance: {user[0]?.balance.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</p>
+        <p className="transfer-balance">
+          Balance:{" "}
+          {user[0]?.balance.toLocaleString("en-US", {
+            style: "currency",
+            currency: "USD",
+          })}
+        </p>
       </div>
 
       <div className="tranfer-user-card-div">
@@ -153,16 +159,17 @@ const Transfer = () => {
               />
             </Col>
             <Col xs={9} style={{ display: "flex", flexDirection: "column" }}>
-              <span className="card-text">José Luis Lobera</span>
-              <span className="account-number">**** 4832</span>
+              <span className="card-text">{savedAccount}</span>
+              <span className="account-number">{accNum}</span>
             </Col>
           </Row>
         </Container>
       </div>
 
       <Toaster position="top-center" richColors />
-      <button className="transfer-button" onClick={() => handleButtonClick()}>Confirm</button>
-
+      <button className="transfer-button" onClick={() => handleButtonClick()}>
+        Confirm
+      </button>
 
       <div className="keyboard-div">
         <Container>

@@ -16,20 +16,17 @@ import { FaPeopleArrows } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from "@supabase/supabase-js";
 
-const API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1namdsa2xkeHpnbnRqbGRtcGduIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODQ1MTUzOTMsImV4cCI6MjAwMDA5MTM5M30.12PsI2OKWJVKXOACa4dXV6jU-nAO8QUVDKooqnjQ1Xc';
-const API_URL = 'https://mgjglkldxzgntjldmpgn.supabase.co/rest/v1/transfers?select=*';
-const USER_URL = 'https://mgjglkldxzgntjldmpgn.supabase.co/rest/v1/user?select=*';
+const API_KEY =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1namdsa2xkeHpnbnRqbGRtcGduIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODQ1MTUzOTMsImV4cCI6MjAwMDA5MTM5M30.12PsI2OKWJVKXOACa4dXV6jU-nAO8QUVDKooqnjQ1Xc";
+const API_URL =
+  "https://mgjglkldxzgntjldmpgn.supabase.co/rest/v1/transfers?select=*";
+const USER_URL =
+  "https://mgjglkldxzgntjldmpgn.supabase.co/rest/v1/user?select=*";
 
 const Dashboard = () => {
-  const color_palette = [
-    "#646cff",
-    "#8c84ff",
-    "#a798ff",
-    "#bfaeff",
-    "#d8d3ff"
-  ];
+  const color_palette = ["#646cff", "#8c84ff", "#a798ff", "#bfaeff", "#d8d3ff"];
 
   const [data, setData] = useState([]);
   const [user, setUser] = useState([]);
@@ -39,14 +36,24 @@ const Dashboard = () => {
     "Miles Archer",
     "Stella Blake",
     "Aurora Cruz",
-    "Leo Donovan"
+    "Leo Donovan",
+  ];
+
+  const saved_numbers = [
+    "**** 4832",
+    "**** 4125",
+    "**** 8145",
+    "**** 4242",
+    "**** 4924",
   ];
 
   const navigate = useNavigate();
 
   const onCardClick = (n) => {
     console.log(`Click on card no. ${n}`);
-    navigate('/transfer');
+    navigate("/transfer", {
+      state: { savedAccount: saved_accounts[n], accNum: saved_numbers[n] },
+    });
   };
 
   useEffect(() => {
@@ -55,16 +62,15 @@ const Dashboard = () => {
         const response = await axios.get(API_URL, {
           headers: {
             apikey: API_KEY,
-            Authorization: `Bearer ${API_KEY}`
-          }
+            Authorization: `Bearer ${API_KEY}`,
+          },
         });
 
         setData(response.data);
       } catch (error) {
-        console.error('Error:', error);
+        console.error("Error:", error);
       }
     };
-
 
     fetchData();
   }, []);
@@ -75,23 +81,22 @@ const Dashboard = () => {
         const response = await axios.get(USER_URL, {
           headers: {
             apikey: API_KEY,
-            Authorization: `Bearer ${API_KEY}`
-          }
+            Authorization: `Bearer ${API_KEY}`,
+          },
         });
 
         setUser(response.data);
       } catch (error) {
-        console.error('Error:', error);
+        console.error("Error:", error);
       }
     };
-
 
     fetchData();
   }, []);
 
   const handleViewAll = () => {
-	navigate('/expenses')
-  }
+    navigate("/expenses");
+  };
 
   return (
     <Layout>
@@ -101,7 +106,12 @@ const Dashboard = () => {
 
         <div className="dashboard-balance-div">
           <p className="balance-tag">Current balance</p>
-          <p className="balance-value">{user[0]?.balance.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</p>
+          <p className="balance-value">
+            {user[0]?.balance.toLocaleString("en-US", {
+              style: "currency",
+              currency: "USD",
+            })}
+          </p>
         </div>
 
         <p className="dashboard-send-money-tag">Send money to</p>
@@ -137,7 +147,7 @@ const Dashboard = () => {
                         {saved_accounts[n]}
                       </span>
                       <span className="account-number text-with-shadow">
-                        **** 4832
+                        {saved_numbers[n]}
                       </span>
                     </Col>
                   </Row>
@@ -147,20 +157,31 @@ const Dashboard = () => {
           </Swiper>
         </>
 
-        <Container fluid style={{ marginTop: "1rem" }} className="expenses-container">
+        <Container
+          fluid
+          style={{ marginTop: "1rem" }}
+          className="expenses-container"
+        >
           <Row>
             <Col xs={6}>
               <p className="expenses-header">Expenses</p>
             </Col>
             <Col xs={6}>
               <div className="expenses-view-all-div">
-                <button className="expenses-view-all-button" onClick={handleViewAll}>View all</button>
+                <button
+                  className="expenses-view-all-button"
+                  onClick={handleViewAll}
+                >
+                  View all
+                </button>
               </div>
             </Col>
           </Row>
           <div className="expenses-div">
             {data.map((item, index) => {
-              const trimmedDate = item.created_at.substring(2, 10).replace(/-/g, '/');
+              const trimmedDate = item.created_at
+                .substring(2, 10)
+                .replace(/-/g, "/");
               return (
                 <Row className="expenses-row" key={`key-${index}`}>
                   <Col xs={3}>
@@ -175,7 +196,12 @@ const Dashboard = () => {
                     </div>
                   </Col>
                   <Col xs={3} className="expenses-info-div">
-                    <p className="expenses-amount">{item.ammount.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</p>
+                    <p className="expenses-amount">
+                      {item.ammount.toLocaleString("en-US", {
+                        style: "currency",
+                        currency: "USD",
+                      })}
+                    </p>
                   </Col>
                 </Row>
               );
