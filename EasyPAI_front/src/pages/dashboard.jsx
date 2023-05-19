@@ -41,6 +41,10 @@ const Dashboard = () => {
 	navigate('/transfer');
   };
 
+  const handleViewAll = () => {
+	navigate('/expenses')
+  }
+
   return (
     <Layout>
       <div className="dashboard-div">
@@ -102,7 +106,7 @@ const Dashboard = () => {
             </Col>
             <Col xs={6}>
               <div className="expenses-view-all-div">
-                <button className="expenses-view-all-button">View all</button>
+                <button className="expenses-view-all-button" onClick={handleViewAll}>View all</button>
               </div>
             </Col>
           </Row>
