@@ -3,6 +3,7 @@ import { BiArrowBack } from "react-icons/bi";
 import { FiDelete } from "react-icons/fi";
 import axios from "axios";
 
+
 import "../style/transfer.css";
 import "../style/index.css";
 import { useNavigate } from "react-router-dom";
@@ -10,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import { Toaster, toast } from 'sonner'
 
 import avatars from "../resources/avatars.json";
 import Layout2 from "../components/layout2";
@@ -22,6 +24,7 @@ const Transfer = () => {
   const [amount, setAmount] = useState("0.00");
   const [canTransfer, setCanTransfer] = useState(true);
   const [user, setUser] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -43,30 +46,65 @@ const Transfer = () => {
     fetchData();
   }, []);
 
+  const handleButtonClick = () => {
+    postRequest(); // Call the first action
+  };
+
+
   const postRequest = async () => {
     try {
-      const response = await axios.post(
-        'https://mgjglkldxzgntjldmpgn.supabase.co/rest/v1/transfers',
-        {
-          ammount: parseInt(amount),
-          description: 'Pago a Luis'
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            apikey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1namdsa2xkeHpnbnRqbGRtcGduIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODQ1MTUzOTMsImV4cCI6MjAwMDA5MTM5M30.12PsI2OKWJVKXOACa4dXV6jU-nAO8QUVDKooqnjQ1Xc',
-            Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1namdsa2xkeHpnbnRqbGRtcGduIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODQ1MTUzOTMsImV4cCI6MjAwMDA5MTM5M30.12PsI2OKWJVKXOACa4dXV6jU-nAO8QUVDKooqnjQ1Xc',
-            Prefer: 'return=minimal'
+      if (user[0]?.balance >= amount) {
+        const response = await axios.post(
+          'https://mgjglkldxzgntjldmpgn.supabase.co/rest/v1/transfers',
+          {
+            ammount: parseInt(amount),
+            description: 'Pago a Luis'
+          },
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              apikey: API_KEY,
+              Authorization: `Bearer ${API_KEY}`,
+              Prefer: 'return=minimal'
+            }
           }
-        }
-      );
-      console.log(response.data);
+        );
+
+        const newBalance = user[0]?.balance - parseInt(amount);
+
+
+        // Update user table
+        const updateResponse = await axios.patch(
+          'https://mgjglkldxzgntjldmpgn.supabase.co/rest/v1/user?id=eq.1',
+          {
+            balance: newBalance
+          },
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              apikey: API_KEY,
+              Authorization: `Bearer ${API_KEY}`,
+              Prefer: 'return=minimal'
+            }
+          }
+        );
+
+        toast.success('Transaction successful!'); // Call the second action
+
+        
+        setTimeout(() => {
+          navigate('/');
+        }, 2000); // 2000 milliseconds (2 seconds)
+      } else {
+        toast.error('Insuficient funds')
+      }
+
     } catch (error) {
       console.error('Error:', error);
     }
   };
 
-  const navigate = useNavigate();
+
 
   const onKeyboardClick = (symbol) => {
     let currentAmount = parseFloat(amount.replace(/,/g, "")); // Remove comma and parse as float
@@ -124,7 +162,9 @@ const Transfer = () => {
         </Container>
       </div>
 
-      <button className="transfer-button" onClick={postRequest}>Confirm</button>
+      <Toaster position="top-center" richColors />
+      <button className="transfer-button" onClick={() => handleButtonClick()}>Confirm</button>
+
 
       <div className="keyboard-div">
         <Container>

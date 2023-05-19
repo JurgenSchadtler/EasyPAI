@@ -177,7 +177,7 @@ const Dashboard = () => {
                     </div>
                   </Col>
                   <Col xs={3} className="expenses-info-div">
-                    <p className="expenses-amount">${item.ammount}</p>
+                    <p className="expenses-amount">{item.ammount.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</p>
                   </Col>
                 </Row>
               );
