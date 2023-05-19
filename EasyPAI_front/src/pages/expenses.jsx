@@ -8,6 +8,7 @@ import Col from "react-bootstrap/Col";
 import { FaPeopleArrows } from "react-icons/fa";
 
 import "../style/expenses.css";
+import "../style/dashboard.css";
 
 
 const API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1namdsa2xkeHpnbnRqbGRtcGduIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODQ1MTUzOTMsImV4cCI6MjAwMDA5MTM5M30.12PsI2OKWJVKXOACa4dXV6jU-nAO8QUVDKooqnjQ1Xc';
@@ -40,25 +41,25 @@ const Expenses = () => {
     <Layout2>
       <h1 className="tranfer-header">Expenses</h1>
 
-      <Container fluid style={{ marginTop: "1rem" }} className="">
+      <Container fluid style={{ marginTop: "1rem" }} className="expenses-container">
         <div className="expenses-full-div">
           {data.map((item, index) => {
             const trimmedDate = item.created_at.substring(2, 10).replace(/-/g, '/');
             return (
-              <Row className="expenses-full-row" key={`key-${index}`}>
+              <Row className="expenses-row" key={`key-${index}`}>
                 <Col xs={3}>
-                  <div className="expenses-full-icon-div">
-                    <FaPeopleArrows className="expenses-full-icon" />
+                  <div className="expenses-icon-div">
+                    <FaPeopleArrows className="expenses-icon" />
                   </div>
                 </Col>
                 <Col xs={6} className="expenses-full-info-div">
                   <div>
-                    <p className="expenses-full-title">{item.description}</p>
-                    <p className="expenses-full-date">{trimmedDate}</p>
+                    <p className="expenses-title">{item.description}</p>
+                    <p className="expenses-date">{trimmedDate}</p>
                   </div>
                 </Col>
-                <Col xs={3} className="expenses-full-info-div">
-                  <p className="expenses-full-amount">{item.ammount.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</p>
+                <Col xs={3} className="expenses-info-div">
+                  <p className="expenses-amount">{item.ammount.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</p>
                 </Col>
               </Row>
             );

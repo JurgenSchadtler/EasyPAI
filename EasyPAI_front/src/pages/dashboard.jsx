@@ -147,7 +147,7 @@ const Dashboard = () => {
           </Swiper>
         </>
 
-        <Container fluid style={{ marginTop: "1rem" }} className="expenses-container debug">
+        <Container fluid style={{ marginTop: "1rem" }} className="expenses-container">
           <Row>
             <Col xs={6}>
               <p className="expenses-header">Expenses</p>
