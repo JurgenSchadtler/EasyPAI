@@ -48,18 +48,24 @@
 }
 
 .swiper-slide {
-  padding: 1rem;
+  padding: 0.7rem 0.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
+  
   border-radius: 18px;
   font-size: 22px;
   font-weight: bold;
-  color: #fff;
+  color: #f9f9f9;
 }
 
 .text-with-shadow {
   text-shadow: 1px 1px 10px rgba(0, 0, 0, 0.2);
+  min-width: 100%;
+}
+
+.account-number {
+  font-size: 0.6em;
 }
 
 .expenses-row {
@@ -76,6 +82,11 @@
 .expenses-view-all-div {
   display: flex;
   justify-content: flex-end;
+}
+
+.expenses-div {
+  max-height: 35vh;
+  overflow: auto;
 }
 
 .expenses-icon-div {
@@ -98,7 +109,8 @@
   align-items: center;
 }
 
-.expenses-title, .expenses-date {
+.expenses-title,
+.expenses-date {
   margin: 0;
   vertical-align: center;
 }
