@@ -9,7 +9,34 @@ import { BsBank } from "react-icons/bs";
 
 import "../style/expenses.css";
 
+
+const API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1namdsa2xkeHpnbnRqbGRtcGduIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODQ1MTUzOTMsImV4cCI6MjAwMDA5MTM5M30.12PsI2OKWJVKXOACa4dXV6jU-nAO8QUVDKooqnjQ1Xc';
+
+const USER_URL = 'https://mgjglkldxzgntjldmpgn.supabase.co/rest/v1/user?select=*';
+
 const Expenses = () => {
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(USER_URL, {
+          headers: {
+            apikey: API_KEY,
+            Authorization: `Bearer ${API_KEY}`
+          }
+        });
+
+        setUser(response.data);
+        console.log(response.data);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+
+
+    fetchData();
+  }, []);
+
   return (
     <Layout2>
       <h1 className="tranfer-header">Expenses</h1>

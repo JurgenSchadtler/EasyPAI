@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BiArrowBack } from "react-icons/bi";
 import { FiDelete } from "react-icons/fi";
+import axios from "axios";
 
 import "../style/transfer.css";
 import "../style/index.css";
@@ -13,10 +14,34 @@ import Col from "react-bootstrap/Col";
 import avatars from "../resources/avatars.json";
 import Layout2 from "../components/layout2";
 
+const API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1namdsa2xkeHpnbnRqbGRtcGduIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODQ1MTUzOTMsImV4cCI6MjAwMDA5MTM5M30.12PsI2OKWJVKXOACa4dXV6jU-nAO8QUVDKooqnjQ1Xc';
+const USER_URL = 'https://mgjglkldxzgntjldmpgn.supabase.co/rest/v1/user?select=*';
+
 const Transfer = () => {
   const balance = 2090.2;
   const [amount, setAmount] = useState("0.00");
   const [canTransfer, setCanTransfer] = useState(true);
+  const [user, setUser] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(USER_URL, {
+          headers: {
+            apikey: API_KEY,
+            Authorization: `Bearer ${API_KEY}`
+          }
+        });
+
+        setUser(response.data);
+        console.log(response.data);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const navigate = useNavigate();
 
@@ -55,7 +80,7 @@ const Transfer = () => {
             {amount}
           </p>
         </div>
-        <p className="transfer-balance">Balance: ${formatAmount(balance)}</p>
+        <p className="transfer-balance">Balance: {user[0]?.balance.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</p>
       </div>
 
       <div className="tranfer-user-card-div">
