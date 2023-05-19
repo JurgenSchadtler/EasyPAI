@@ -5,7 +5,7 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-import { BsBank } from "react-icons/bs";
+import { FaPeopleArrows } from "react-icons/fa";
 
 import "../style/expenses.css";
 
@@ -48,7 +48,7 @@ const Expenses = () => {
               <Row className="expenses-full-row" key={`key-${index}`}>
                 <Col xs={3}>
                   <div className="expenses-full-icon-div">
-                    <BsBank className="expenses-full-icon" />
+                    <FaPeopleArrows className="expenses-full-icon" />
                   </div>
                 </Col>
                 <Col xs={6} className="expenses-full-info-div">

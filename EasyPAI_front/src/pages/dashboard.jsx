@@ -12,7 +12,7 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-import { BsBank } from "react-icons/bs";
+import { FaPeopleArrows } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -165,7 +165,7 @@ const Dashboard = () => {
                 <Row className="expenses-row" key={`key-${index}`}>
                   <Col xs={3}>
                     <div className="expenses-icon-div">
-                      <BsBank className="expenses-icon" />
+                      <FaPeopleArrows className="expenses-icon" />
                     </div>
                   </Col>
                   <Col xs={6} className="expenses-info-div">
