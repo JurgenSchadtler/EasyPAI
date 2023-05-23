@@ -1,18 +1,73 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
 import "../style/login.css";
-
+import { useNavigate } from "react-router-dom";
 import img from "../assets/vite.svg";
+import axios from "axios";
+import { Toaster, toast } from "sonner";
+
+const API_KEY =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1namdsa2xkeHpnbnRqbGRtcGduIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODQ1MTUzOTMsImV4cCI6MjAwMDA5MTM5M30.12PsI2OKWJVKXOACa4dXV6jU-nAO8QUVDKooqnjQ1Xc";
+const USER_URL =
+  "https://mgjglkldxzgntjldmpgn.supabase.co/rest/v1/user?select=*";
 
 const Login = () => {
+  const navigate = useNavigate();
+
   const [credentials, setCredentials] = useState({
     username: "",
     password: "",
   });
+  const [user, setUser] = useState([]);
+
+  const [isLogged, setIsLogged] = useState(false);
 
   const onChange = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
     console.log(credentials);
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(USER_URL, {
+          headers: {
+            apikey: API_KEY,
+            Authorization: `Bearer ${API_KEY}`,
+          },
+        });
+
+        setUser(response.data);
+        console.log(response.data);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    try {
+      if (
+        credentials.username === user[0].username &&
+        credentials.password === user[0].password
+      ) {
+        setIsLogged(true);
+      } else {
+        console.log(user[0].username, user[0].password, credentials.username, credentials.password);
+        setIsLogged(false);
+        toast.error("Username or password incorrect"); // Call the second action
+      }
+    } finally {
+      if(isLogged){
+        navigate("/dashboard")
+      } else{
+        console.log("not logged");
+      }
+      
+    }
   };
 
   return (
@@ -25,7 +80,7 @@ const Login = () => {
         We happy to see you here again. Enter your username and password
       </p>
 
-      <Form>
+      <Form onSubmit={(e) => handleSubmit(e)}>
         <Form.Control
           className="login-input"
           type="text"
@@ -46,7 +101,7 @@ const Login = () => {
           Log In
         </button>
       </Form>
-
+      <Toaster position="top-center" richColors />
       <h1 className="login-forgot-pwd-tag">Forgot password?</h1>
     </div>
   );
