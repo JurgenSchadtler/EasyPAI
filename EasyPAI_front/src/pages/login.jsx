@@ -56,17 +56,21 @@ const Login = () => {
       ) {
         setIsLogged(true);
       } else {
-        console.log(user[0].username, user[0].password, credentials.username, credentials.password);
+        console.log(
+          user[0].username,
+          user[0].password,
+          credentials.username,
+          credentials.password
+        );
         setIsLogged(false);
         toast.error("Username or password incorrect"); // Call the second action
       }
     } finally {
-      if(isLogged){
-        navigate("/dashboard")
-      } else{
+      if (isLogged) {
+        navigate("/dashboard");
+      } else {
         console.log("not logged");
       }
-      
     }
   };
 
