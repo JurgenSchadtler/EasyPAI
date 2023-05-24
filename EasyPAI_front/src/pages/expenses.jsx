@@ -1,3 +1,10 @@
+/**
+ * @file expenses.jsx
+ * @description Expenses component responsible for rendering the expenses page of the application.
+ * @author jhludwolf
+ * @created May 18, 2023
+ */
+
 import React, {useState, useEffect} from "react";
 import Layout2 from "../components/layout2";
 import axios from "axios";

@@ -1,3 +1,10 @@
+/**
+ * @file transfer.jsx
+ * @description Transfer component responsible for rendering the tranfer page of the application.
+ * @author jhludwolf
+ * @created May 18, 2023
+ */
+
 import React, { useState, useEffect } from "react";
 import { BiArrowBack } from "react-icons/bi";
 import { FiDelete } from "react-icons/fi";
@@ -52,11 +59,20 @@ const Transfer = () => {
     postRequest(); // Call the first action
   };
 
+  /**
+   * Performs a POST request to transfer money.
+   * @async
+   */
   const postRequest = async () => {
     try {
-      const current_amount = parseInt(amount.replaceAll(',',''))
-      if (current_amount < 100 || current_amount > 7000) toast.error("Amount must be at least $100 and max $7000"); 
-      else if (user[0]?.balance >= current_amount) {
+      // Parse the amount and remove commas
+      const current_amount = parseInt(amount.replaceAll(",", ""));
+
+      // Check if the amount is within the valid range
+      if (current_amount < 100 || current_amount > 7000) {
+        toast.error("Amount must be at least $100 and max $7000");
+      } else if (user[0]?.balance >= current_amount) {
+        // Make the POST request to create a transfer
         const response = await axios.post(
           "https://mgjglkldxzgntjldmpgn.supabase.co/rest/v1/transfers",
           {
@@ -75,7 +91,7 @@ const Transfer = () => {
 
         const newBalance = user[0]?.balance - parseInt(current_amount);
 
-        // Update user table
+        // Update user table with the new balance
         const updateResponse = await axios.patch(
           "https://mgjglkldxzgntjldmpgn.supabase.co/rest/v1/user?id=eq.1",
           {
@@ -97,7 +113,7 @@ const Transfer = () => {
           navigate("/");
         }, 2000); // 2000 milliseconds (2 seconds)
       } else {
-        toast.error("Insuficient funds");
+        toast.error("Insufficient funds");
       }
     } catch (error) {
       console.error("Error:", error);
@@ -169,7 +185,11 @@ const Transfer = () => {
       </div>
 
       <Toaster position="top-center" richColors />
-      <button className="transfer-button" onClick={() => handleButtonClick()} disabled={canTransfer ? false : true}>
+      <button
+        className="transfer-button"
+        onClick={() => handleButtonClick()}
+        disabled={canTransfer ? false : true}
+      >
         Confirm
       </button>
 

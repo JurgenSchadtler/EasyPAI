@@ -1,7 +1,7 @@
 /**
 * authSlice.js
 * Creates a variable at the browser Local Storage if the user is Authenticated
-* @author   José Luis Lobera | jlobera@hopewellsystem.com
+* @author   José Luis Lobera | 0224643@up.edu.mx
 * @date     06.12.2022
 */
 

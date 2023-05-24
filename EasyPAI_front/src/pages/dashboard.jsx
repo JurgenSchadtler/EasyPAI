@@ -1,3 +1,10 @@
+/**
+ * @file dashboard.jsx
+ * @description Dashboard component responsible for rendering the dashboard page of the application.
+ * @author jhludwolf
+ * @created May 18, 2023
+ */
+
 import Layout from "../components/layout";
 import "../style/dashboard.css";
 import { useEffect, useState } from "react";
@@ -87,6 +94,7 @@ const Dashboard = () => {
         });
 
         setUser(response.data);
+        console.log(user);
       } catch (error) {
         console.error("Error:", error);
       }

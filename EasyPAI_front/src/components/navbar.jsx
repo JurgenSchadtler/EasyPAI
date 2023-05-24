@@ -1,3 +1,10 @@
+/**
+ * @file navbar.jsx
+ * @description Navbar component responsible for rendering the main navigation bar of the application. Handles user logout functionality and displays a logo/image.
+ * @author jhludwolf
+ * @created May 18, 2023
+ */
+
 import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
 

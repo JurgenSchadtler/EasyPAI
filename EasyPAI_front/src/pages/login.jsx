@@ -1,3 +1,10 @@
+/**
+ * @file login.jsx
+ * @description Login component responsible for rendering the login page of the application. Handles user authentication and form submission.
+ * @author jhludwolf
+ * @created May 18, 2023
+ */
+
 import React, { useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
 import "../style/login.css";
@@ -28,6 +35,7 @@ const Login = () => {
   };
 
   useEffect(() => {
+    // Fetch data from the API
     const fetchData = async () => {
       try {
         const response = await axios.get(USER_URL, {
@@ -37,29 +45,30 @@ const Login = () => {
           },
         });
 
-        setUser(response.data);
-        //console.log(response.data);
+        setUser(response.data); // Update the user state with the fetched data
       } catch (error) {
-        console.error("Error:", error);
+        console.error("Error:", error); // Log the error to the console
       }
     };
 
     fetchData();
   }, []);
 
+  // Handle form submission
   const handleSubmit = (e) => {
-    e.preventDefault();
-    
+    e.preventDefault(); // Prevent the default form submission behavior
+
+    // Check if the entered credentials match the user's username and password
     if (
-        credentials.username === user[0].username &&
-        credentials.password === user[0].password
-      ) {
-        dispatch(authenticateUser());
-        localStorage.setItem("isAuth", "true");
-        navigate("/dashboard");
-      } else {
-        toast.error("Username or password incorrect");
-      }
+      credentials.username === user[0].username &&
+      credentials.password === user[0].password
+    ) {
+      dispatch(authenticateUser()); // Dispatch action to authenticate the user
+      localStorage.setItem("isAuth", "true"); // Set "isAuth" flag in localStorage to indicate the user is authenticated
+      navigate("/dashboard"); // Navigate to the dashboard page
+    } else {
+      toast.error("Username or password incorrect"); // Display an error toast for incorrect username or password
+    }
   };
 
   return (

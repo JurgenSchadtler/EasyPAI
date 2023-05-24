@@ -1,3 +1,10 @@
+/**
+ * @file app.jsx
+ * @description Root component of the React application, handling routing and rendering different pages based on authentication status.
+ * @author jhludwolf
+ * @created May 18, 2023
+ */
+
 import {
   BrowserRouter,
   Routes,

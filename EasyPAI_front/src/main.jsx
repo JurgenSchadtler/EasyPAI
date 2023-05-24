@@ -1,3 +1,11 @@
+/**
+ * @file main.jsx
+ * @description Entry point of the React application, rendering the App component with Redux store integration.
+ * @author jhludwolf
+ * @created May 18, 2023
+ */
+
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
