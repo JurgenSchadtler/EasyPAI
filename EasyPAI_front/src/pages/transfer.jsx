@@ -54,11 +54,13 @@ const Transfer = () => {
 
   const postRequest = async () => {
     try {
-      if (user[0]?.balance >= amount) {
+      const current_amount = parseInt(amount.replaceAll(',',''))
+      if (current_amount < 100 || current_amount > 7000) toast.error("Amount must be at least $100 and max $7000"); 
+      else if (user[0]?.balance >= current_amount) {
         const response = await axios.post(
           "https://mgjglkldxzgntjldmpgn.supabase.co/rest/v1/transfers",
           {
-            ammount: parseInt(amount),
+            ammount: parseInt(current_amount),
             description: `Pago a ${savedAccount}`,
           },
           {
@@ -71,7 +73,7 @@ const Transfer = () => {
           }
         );
 
-        const newBalance = user[0]?.balance - parseInt(amount);
+        const newBalance = user[0]?.balance - parseInt(current_amount);
 
         // Update user table
         const updateResponse = await axios.patch(
