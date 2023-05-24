@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import img from "../assets/vite.svg";
 import axios from "axios";
 import { Toaster, toast } from "sonner";
+import { useDispatch } from "react-redux";
+import { authenticateUser } from '../redux/slices/authSlice'
 
 const API_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1namdsa2xkeHpnbnRqbGRtcGduIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODQ1MTUzOTMsImV4cCI6MjAwMDA5MTM5M30.12PsI2OKWJVKXOACa4dXV6jU-nAO8QUVDKooqnjQ1Xc";
@@ -12,7 +14,8 @@ const USER_URL =
   "https://mgjglkldxzgntjldmpgn.supabase.co/rest/v1/user?select=*";
 
 const Login = () => {
-  const navigate = useNavigate();
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const [credentials, setCredentials] = useState({
     username: "",
@@ -24,7 +27,6 @@ const Login = () => {
 
   const onChange = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
-    console.log(credentials);
   };
 
   useEffect(() => {
@@ -67,6 +69,8 @@ const Login = () => {
       }
     } finally {
       if (isLogged) {
+        dispatch(authenticateUser());
+        localStorage.setItem("isAuth", "true");
         navigate("/dashboard");
       } else {
         console.log("not logged");
