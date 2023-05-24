@@ -6,7 +6,7 @@ import img from "../assets/vite.svg";
 import axios from "axios";
 import { Toaster, toast } from "sonner";
 import { useDispatch } from "react-redux";
-import { authenticateUser } from '../redux/slices/authSlice'
+import { authenticateUser } from "../redux/slices/authSlice";
 
 const API_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1namdsa2xkeHpnbnRqbGRtcGduIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODQ1MTUzOTMsImV4cCI6MjAwMDA5MTM5M30.12PsI2OKWJVKXOACa4dXV6jU-nAO8QUVDKooqnjQ1Xc";
@@ -14,8 +14,8 @@ const USER_URL =
   "https://mgjglkldxzgntjldmpgn.supabase.co/rest/v1/user?select=*";
 
 const Login = () => {
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [credentials, setCredentials] = useState({
     username: "",
@@ -40,7 +40,7 @@ const Login = () => {
         });
 
         setUser(response.data);
-        console.log(response.data);
+        //console.log(response.data);
       } catch (error) {
         console.error("Error:", error);
       }
@@ -51,31 +51,18 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      if (
+    
+    if (
         credentials.username === user[0].username &&
         credentials.password === user[0].password
       ) {
-        setIsLogged(true);
-      } else {
-        console.log(
-          user[0].username,
-          user[0].password,
-          credentials.username,
-          credentials.password
-        );
-        setIsLogged(false);
-        toast.error("Username or password incorrect"); // Call the second action
-      }
-    } finally {
-      if (isLogged) {
         dispatch(authenticateUser());
         localStorage.setItem("isAuth", "true");
         navigate("/dashboard");
       } else {
-        console.log("not logged");
+        setIsLogged(false);
+        toast.error("Username or password incorrect");
       }
-    }
   };
 
   return (
