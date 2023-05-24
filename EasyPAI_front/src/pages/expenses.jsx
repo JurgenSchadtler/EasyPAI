@@ -16,6 +16,7 @@ import { FaPeopleArrows } from "react-icons/fa";
 
 import "../style/expenses.css";
 import "../style/dashboard.css";
+import log from "loglevel"
 
 
 const API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1namdsa2xkeHpnbnRqbGRtcGduIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODQ1MTUzOTMsImV4cCI6MjAwMDA5MTM5M30.12PsI2OKWJVKXOACa4dXV6jU-nAO8QUVDKooqnjQ1Xc';
@@ -25,6 +26,7 @@ const Expenses = () => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
+    log.debug("Welcome to Expenses");
     const fetchData = async () => {
       try {
         const response = await axios.get(API_URL, {
@@ -35,8 +37,10 @@ const Expenses = () => {
         });
 
         setData(response.data);
+        log.debug("Debug Data: ", response.data);
+
       } catch (error) {
-        console.error('Error:', error);
+        log.error('Error:', error);
       }
     };
 

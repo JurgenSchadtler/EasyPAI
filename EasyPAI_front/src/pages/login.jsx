@@ -14,6 +14,7 @@ import axios from "axios";
 import { Toaster, toast } from "sonner";
 import { useDispatch } from "react-redux";
 import { authenticateUser } from "../redux/slices/authSlice";
+import log from "loglevel";
 
 const API_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1namdsa2xkeHpnbnRqbGRtcGduIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODQ1MTUzOTMsImV4cCI6MjAwMDA5MTM5M30.12PsI2OKWJVKXOACa4dXV6jU-nAO8QUVDKooqnjQ1Xc";
@@ -35,6 +36,8 @@ const Login = () => {
   };
 
   useEffect(() => {
+    log.debug("Welcome to the App");
+
     // Fetch data from the API
     const fetchData = async () => {
       try {
@@ -47,7 +50,8 @@ const Login = () => {
 
         setUser(response.data); // Update the user state with the fetched data
       } catch (error) {
-        console.error("Error:", error); // Log the error to the console
+        //console.error("Error:", error); // Log the error to the console
+        log.error("Error:", error);
       }
     };
 
@@ -63,10 +67,12 @@ const Login = () => {
       credentials.username === user[0].username &&
       credentials.password === user[0].password
     ) {
+      log.debug("Log In succeed");
       dispatch(authenticateUser()); // Dispatch action to authenticate the user
       localStorage.setItem("isAuth", "true"); // Set "isAuth" flag in localStorage to indicate the user is authenticated
       navigate("/dashboard"); // Navigate to the dashboard page
     } else {
+      log.error("Log In failed");
       toast.error("Username or password incorrect"); // Display an error toast for incorrect username or password
     }
   };

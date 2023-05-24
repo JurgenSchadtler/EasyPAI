@@ -24,6 +24,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import { createClient } from "@supabase/supabase-js";
+import log from "loglevel";
 
 const API_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1namdsa2xkeHpnbnRqbGRtcGduIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODQ1MTUzOTMsImV4cCI6MjAwMDA5MTM5M30.12PsI2OKWJVKXOACa4dXV6jU-nAO8QUVDKooqnjQ1Xc";
@@ -57,13 +58,14 @@ const Dashboard = () => {
   const navigate = useNavigate();
 
   const onCardClick = (n) => {
-    //console.log(`Click on card no. ${n}`);
+    log.info("Welcome to the dashboard");
     navigate("/transfer", {
       state: { savedAccount: saved_accounts[n], accNum: saved_numbers[n] },
     });
   };
 
   useEffect(() => {
+    log.debug("Welcome to Dasboard");
     const fetchData = async () => {
       try {
         const response = await axios.get(API_URL, {
@@ -74,9 +76,9 @@ const Dashboard = () => {
         });
 
         setData(response.data);
-        //console.log(response.data)
+        log.debug("Debug Data: ", response.data)
       } catch (error) {
-        console.error("Error:", error);
+        log.error("Error:", error);
       }
     };
 
@@ -94,9 +96,9 @@ const Dashboard = () => {
         });
 
         setUser(response.data);
-        console.log(user);
+        log.debug("Debug user: ", response.data)
       } catch (error) {
-        console.error("Error:", error);
+        log.error("Error:", error);
       }
     };
 

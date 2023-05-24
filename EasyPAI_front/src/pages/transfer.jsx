@@ -22,6 +22,8 @@ import { Toaster, toast } from "sonner";
 import avatars from "../resources/avatars.json";
 import Layout2 from "../components/layout2";
 
+import log from "loglevel";
+
 const API_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1namdsa2xkeHpnbnRqbGRtcGduIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODQ1MTUzOTMsImV4cCI6MjAwMDA5MTM5M30.12PsI2OKWJVKXOACa4dXV6jU-nAO8QUVDKooqnjQ1Xc";
 const USER_URL =
@@ -47,8 +49,9 @@ const Transfer = () => {
         });
 
         setUser(response.data);
+        log.debug("Debug User: ", response.data);
       } catch (error) {
-        console.error("Error:", error);
+        log.error("Error:", error);
       }
     };
 
@@ -70,6 +73,7 @@ const Transfer = () => {
 
       // Check if the amount is within the valid range
       if (current_amount < 100 || current_amount > 7000) {
+        log.warn("Warn: Amount must be at least $100 and max $7000");
         toast.error("Amount must be at least $100 and max $7000");
       } else if (user[0]?.balance >= current_amount) {
         // Make the POST request to create a transfer
@@ -113,10 +117,11 @@ const Transfer = () => {
           navigate("/");
         }, 2000); // 2000 milliseconds (2 seconds)
       } else {
+        log.warn("Warn: Insufficient funds");
         toast.error("Insufficient funds");
       }
     } catch (error) {
-      console.error("Error:", error);
+      log.error("Error:", error);
     }
   };
 
