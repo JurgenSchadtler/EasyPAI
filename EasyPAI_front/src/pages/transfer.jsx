@@ -169,7 +169,7 @@ const Transfer = () => {
       </div>
 
       <Toaster position="top-center" richColors />
-      <button className="transfer-button" onClick={() => handleButtonClick()}>
+      <button className="transfer-button" onClick={() => handleButtonClick()} disabled={canTransfer ? false : true}>
         Confirm
       </button>
 

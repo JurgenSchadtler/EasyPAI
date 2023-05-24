@@ -114,6 +114,13 @@
     background-color: #f9f9f9;
 }
 
+button:disabled {
+    pointer-events: none;
+    background-color: #cccccc;
+    color: #666666;
+    cursor: not-allowed;
+  }
+
 .keyboard-div {
     margin-top: 2em;
     display: flex;
