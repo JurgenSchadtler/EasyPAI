@@ -50,7 +50,7 @@ const Dashboard = () => {
   const navigate = useNavigate();
 
   const onCardClick = (n) => {
-    console.log(`Click on card no. ${n}`);
+    //console.log(`Click on card no. ${n}`);
     navigate("/transfer", {
       state: { savedAccount: saved_accounts[n], accNum: saved_numbers[n] },
     });
@@ -67,7 +67,7 @@ const Dashboard = () => {
         });
 
         setData(response.data);
-        console.log(response.data)
+        //console.log(response.data)
       } catch (error) {
         console.error("Error:", error);
       }
