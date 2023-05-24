@@ -23,8 +23,6 @@ const Login = () => {
   });
   const [user, setUser] = useState([]);
 
-  const [isLogged, setIsLogged] = useState(false);
-
   const onChange = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
   };
@@ -60,7 +58,6 @@ const Login = () => {
         localStorage.setItem("isAuth", "true");
         navigate("/dashboard");
       } else {
-        setIsLogged(false);
         toast.error("Username or password incorrect");
       }
   };

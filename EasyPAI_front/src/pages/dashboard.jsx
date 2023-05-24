@@ -32,7 +32,7 @@ const Dashboard = () => {
   const [user, setUser] = useState([]);
 
   const saved_accounts = [
-    "José Luis Lobera",
+    "Jürgen Schadtler",
     "Miles Archer",
     "Stella Blake",
     "Aurora Cruz",
@@ -67,6 +67,7 @@ const Dashboard = () => {
         });
 
         setData(response.data);
+        console.log(response.data)
       } catch (error) {
         console.error("Error:", error);
       }
