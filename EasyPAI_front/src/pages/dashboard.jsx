@@ -76,7 +76,7 @@ const Dashboard = () => {
         });
 
         setData(response.data);
-        log.debug("Debug Data: ", response.data)
+        log.debug("Debug Data: ", response.data);
       } catch (error) {
         log.error("Error:", error);
       }
@@ -96,7 +96,7 @@ const Dashboard = () => {
         });
 
         setUser(response.data);
-        log.debug("Debug user: ", response.data)
+        log.debug("Debug user: ", response.data);
       } catch (error) {
         log.error("Error:", error);
       }
@@ -128,7 +128,7 @@ const Dashboard = () => {
         <p className="dashboard-send-money-tag">Send money to</p>
 
         <>
-        <Swiper
+          <Swiper
             effect={"cards"}
             grabCursor={true}
             modules={[EffectCards]}
