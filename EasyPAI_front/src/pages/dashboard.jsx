@@ -128,44 +128,7 @@ const Dashboard = () => {
         <p className="dashboard-send-money-tag">Send money to</p>
 
         <>
-          <Swiper
-            effect={"cards"}
-            grabCursor={true}
-            modules={[EffectCards]}
-            className="mySwiper"
-          >
-            {[0, 1, 2, 3, 4].map((n) => (
-              <SwiperSlide
-                style={{ backgroundColor: color_palette[n] }}
-                key={`key-${n}`}
-                className=""
-                onClick={() => onCardClick(n)}
-              >
-                <Container>
-                  <Row>
-                    <Col xs={3}>
-                      <img
-                        src={avatars.avatars[n]}
-                        height="60px"
-                        style={{ marginRight: "0.5rem" }}
-                      />
-                    </Col>
-                    <Col
-                      xs={9}
-                      style={{ display: "flex", flexDirection: "column" }}
-                    >
-                      <span className="text-with-shadow">
-                        {saved_accounts[n]}
-                      </span>
-                      <span className="account-number text-with-shadow">
-                        {saved_numbers[n]}
-                      </span>
-                    </Col>
-                  </Row>
-                </Container>
-              </SwiperSlide>
-            ))}
-          </Swiper>
+          
         </>
 
         <Container
