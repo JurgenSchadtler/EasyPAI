@@ -41,8 +41,8 @@ const Dashboard = () => {
 
   const saved_accounts = [
     "Jürgen Schadtler",
-    "Miles Archer",
-    "Stella Blake",
+    "José Luis Lobera",
+    "JoMi de la Mora",
     "Aurora Cruz",
     "Leo Donovan",
   ];
