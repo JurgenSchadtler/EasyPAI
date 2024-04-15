@@ -25,9 +25,9 @@ import Layout2 from "../components/layout2";
 import log from "loglevel";
 
 const API_KEY =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1namdsa2xkeHpnbnRqbGRtcGduIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODQ1MTUzOTMsImV4cCI6MjAwMDA5MTM5M30.12PsI2OKWJVKXOACa4dXV6jU-nAO8QUVDKooqnjQ1Xc";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNueGlhZ2p6dHppYnRseGRjcXNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTMyMTQzMDIsImV4cCI6MjAyODc5MDMwMn0.1EcVnTcPW1UoFQLpP4zubKVkpPLMTd5D8n8UtYuNmqI";
 const USER_URL =
-  "https://mgjglkldxzgntjldmpgn.supabase.co/rest/v1/user?select=*";
+  "https://cnxiagjztzibtlxdcqsa.supabase.co/rest/v1/user?select=*";
 
 const Transfer = () => {
   const [amount, setAmount] = useState("0.00");
