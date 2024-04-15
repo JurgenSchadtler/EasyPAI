@@ -78,7 +78,7 @@ const Transfer = () => {
       } else if (user[0]?.balance >= current_amount) {
         // Make the POST request to create a transfer
         const response = await axios.post(
-          "https://mgjglkldxzgntjldmpgn.supabase.co/rest/v1/transfers",
+          "https://cnxiagjztzibtlxdcqsa.supabase.co/rest/v1/transfers",
           {
             ammount: parseInt(current_amount),
             description: `Pago a ${savedAccount}`,
@@ -97,7 +97,7 @@ const Transfer = () => {
 
         // Update user table with the new balance
         const updateResponse = await axios.patch(
-          "https://mgjglkldxzgntjldmpgn.supabase.co/rest/v1/user?id=eq.1",
+          "https://cnxiagjztzibtlxdcqsa.supabase.co/rest/v1/user?id=eq.1",
           {
             balance: newBalance,
           },
