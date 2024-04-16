@@ -17,6 +17,8 @@ import Transfer from "./pages/transfer";
 import Expenses from "./pages/expenses";
 import Login from "./pages/login";
 import { useSelector } from "react-redux";
+import Balance from "./pages/balances";
+import Register from "./pages/register";
 
 const PrivateRoutes = () => {
   const { isAuth } = useSelector((state) => state.auth);
@@ -36,12 +38,14 @@ const App = () => {
       <Routes>
         <Route element={<PublicRoutes />}>
           <Route path="/*" element={<Login />} />
+          <Route path="/register" element={<Register />} />
         </Route>
 
         <Route element={<PrivateRoutes />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/transfer" element={<Transfer />} />
           <Route path="/expenses" element={<Expenses />} />
+          <Route path="/balance" element={<Balance />} />
         </Route>
       </Routes>
     </BrowserRouter>

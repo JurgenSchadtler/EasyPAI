@@ -35,7 +35,7 @@ const USER_URL =
 
 const Dashboard = () => {
   const color_palette = ["#646cff", "#8c84ff", "#a798ff", "#bfaeff", "#d8d3ff"];
-
+  const storedUser = localStorage.getItem("username");
   const [data, setData] = useState([]);
   const [user, setUser] = useState([]);
 
@@ -65,7 +65,6 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
-    log.debug("Welcome to Dasboard");
     const fetchData = async () => {
       try {
         const response = await axios.get(API_URL, {
@@ -75,8 +74,11 @@ const Dashboard = () => {
           },
         });
 
-        setData(response.data);
-        log.debug("Debug Data: ", response.data);
+        const filteredData = response.data.filter(
+          (item) => item.byUser === storedUser
+        );
+
+        setData(filteredData);
       } catch (error) {
         log.error("Error:", error);
       }
@@ -84,7 +86,7 @@ const Dashboard = () => {
 
     fetchData();
   }, []);
-
+  /* 
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -103,10 +105,39 @@ const Dashboard = () => {
     };
 
     fetchData();
+  }, []); */
+
+  useEffect(() => {
+    const fetchData1 = async () => {
+      try {
+        const response = await axios.get(USER_URL, {
+          headers: {
+            apikey: API_KEY,
+            Authorization: `Bearer ${API_KEY}`,
+          },
+        });
+
+        // Filter the received user data to match the user from local storage
+        const matchedUser = response.data.find(
+          (u) => u.username === storedUser
+        );
+
+        setUser(matchedUser);
+        console.log(matchedUser);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+
+    fetchData1();
   }, []);
 
   const handleViewAll = () => {
     navigate("/expenses");
+  };
+
+  const handleViewBalance = () => {
+    navigate("/balance");
   };
 
   return (
@@ -115,10 +146,10 @@ const Dashboard = () => {
         <h1 className="dashboard-h1">{user[0]?.name}</h1>
         <p className="dashboard-welcome-p">Welcome Back!</p>
 
-        <div className="dashboard-balance-div">
+        <div className="dashboard-balance-div" onClick={handleViewBalance}>
           <p className="balance-tag">Current balance</p>
           <p className="balance-value">
-            {user[0]?.balance.toLocaleString("en-US", {
+            {user?.balance?.toLocaleString("en-US", {
               style: "currency",
               currency: "USD",
             })}

@@ -29,14 +29,14 @@ const API_KEY =
 const USER_URL =
   "https://cnxiagjztzibtlxdcqsa.supabase.co/rest/v1/user?select=*";
 
-const Transfer = () => {
+const Balance = () => {
   const [amount, setAmount] = useState("0.00");
   const [canTransfer, setCanTransfer] = useState(true);
   const [user, setUser] = useState([]);
+  const [newBalance, setBalance] = useState();
   const navigate = useNavigate();
   const storedUser = localStorage.getItem("username");
   const location = useLocation();
-  const { savedAccount, accNum } = location.state;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -73,59 +73,34 @@ const Transfer = () => {
    */
   const postRequest = async () => {
     try {
-      // Parse the amount and remove commas
-      const current_amount = parseInt(amount.replaceAll(",", ""));
-
-      // Check if the amount is within the valid range
-      if (current_amount < 100 || current_amount > 7000) {
-        log.warn("Warn: Amount must be at least $100 and max $7000");
-        toast.error("Amount must be at least $100 and max $7000");
-      } else if (user?.balance >= current_amount) {
-        // Make the POST request to create a transfer
-        const response = await axios.post(
-          "https://cnxiagjztzibtlxdcqsa.supabase.co/rest/v1/transfers",
-          {
-            ammount: parseInt(current_amount),
-            description: `Pago a ${savedAccount}`,
-            byUser: storedUser,
-          },
-          {
-            headers: {
-              "Content-Type": "application/json",
-              apikey: API_KEY,
-              Authorization: `Bearer ${API_KEY}`,
-              Prefer: "return=minimal",
-            },
-          }
-        );
-
-        const newBalance = user?.balance - parseInt(current_amount);
-
-        // Update user table with the new balance
-        const updateResponse = await axios.patch(
-          `https://cnxiagjztzibtlxdcqsa.supabase.co/rest/v1/user?username=eq.${storedUser}`,
-          {
-            balance: newBalance,
-          },
-          {
-            headers: {
-              "Content-Type": "application/json",
-              apikey: API_KEY,
-              Authorization: `Bearer ${API_KEY}`,
-              Prefer: "return=minimal",
-            },
-          }
-        );
-
-        toast.success("Transaction successful!"); // Call the second action
-
-        setTimeout(() => {
-          navigate("/");
-        }, 2000); // 2000 milliseconds (2 seconds)
+      let newAmm = 0;
+      // Update user table with the new balance
+      if (user.balance === null) {
+        newAmm = 0 + parseFloat(amount);
       } else {
-        log.warn("Warn: Insufficient funds");
-        toast.error("Insufficient funds");
+        newAmm = parseFloat(user.balance) + parseFloat(amount);
       }
+
+      const updateResponse = await axios.patch(
+        `https://cnxiagjztzibtlxdcqsa.supabase.co/rest/v1/user?username=eq.${storedUser}`,
+        {
+          balance: newAmm,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            apikey: API_KEY,
+            Authorization: `Bearer ${API_KEY}`,
+            Prefer: "return=minimal",
+          },
+        }
+      );
+
+      toast.success("Transaction successful!"); // Call the second action
+
+      setTimeout(() => {
+        navigate("/");
+      }, 2000); // 2000 milliseconds (2 seconds)
     } catch (error) {
       log.error("Error:", error);
     }
@@ -141,9 +116,6 @@ const Transfer = () => {
       currentAmount = currentAmount * 10 + symbol / 100;
     }
 
-    currentAmount > user?.balance
-      ? setCanTransfer(false)
-      : setCanTransfer(true);
     setAmount(formatAmount(currentAmount));
   };
 
@@ -159,7 +131,7 @@ const Transfer = () => {
 
   return (
     <Layout2>
-      <h1 className="tranfer-header">Send Money</h1>
+      <h1 className="tranfer-header">Deposit to your account</h1>
 
       <div className={`${canTransfer ? "" : "transfer-error"}`}>
         <div className="transfer-input-div">
@@ -179,7 +151,7 @@ const Transfer = () => {
 
       <div className="tranfer-user-card-div">
         <Container>
-          <Row>
+          {/*   <Row>
             <Col xs={3}>
               <img
                 src={avatars.avatars[0]}
@@ -191,7 +163,7 @@ const Transfer = () => {
               <span className="card-text">{savedAccount}</span>
               <span className="account-number">{accNum}</span>
             </Col>
-          </Row>
+          </Row> */}
         </Container>
       </div>
 
@@ -224,4 +196,4 @@ const Transfer = () => {
   );
 };
 
-export default Transfer;
+export default Balance;

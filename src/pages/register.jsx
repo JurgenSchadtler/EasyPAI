@@ -13,6 +13,7 @@ import img from "../assets/vite.svg";
 import axios from "axios";
 import { Toaster, toast } from "sonner";
 import { useDispatch } from "react-redux";
+
 import { authenticateUser } from "../redux/slices/authSlice";
 import log from "loglevel";
 
@@ -21,7 +22,7 @@ const API_KEY =
 const USER_URL =
   "https://cnxiagjztzibtlxdcqsa.supabase.co/rest/v1/user?select=*";
 
-const Login = () => {
+const Register = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -59,40 +60,44 @@ const Login = () => {
   }, []);
 
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent the default form submission behavior
-
-    // Check if any user's credentials match the entered credentials
-    const isValidUser = user.some(
-      (u) =>
-        u.username === credentials.username &&
-        u.password === credentials.password
-    );
-
-    if (isValidUser) {
-      log.debug("Log In succeed");
-      dispatch(authenticateUser()); // Dispatch action to authenticate the user
-      localStorage.setItem("isAuth", "true"); // Set "isAuth" flag in localStorage to indicate the user is authenticated
-      localStorage.setItem("username", credentials.username); // Set "isAuth" flag in localStorage to indicate the user is authenticated
-      navigate("/dashboard"); // Navigate to the dashboard page
-    } else {
-      log.error("Log In failed");
-      toast.error("Username or password incorrect"); // Display an error toast for incorrect username or password
+    try {
+      const response = await axios.post(
+        "https://cnxiagjztzibtlxdcqsa.supabase.co/rest/v1/user",
+        {
+          username: credentials.username,
+          password: credentials.password,
+        },
+        {
+          headers: {
+            apikey: API_KEY,
+            Authorization: `Bearer ${API_KEY}`,
+          },
+        }
+      );
+      toast.success("User Created");
+      navigate("/login");
+    } catch (error) {
+      //console.error("Error:", error); // Log the error to the console
+      log.error("Error:", error);
+      toast.error("Server Error");
     }
   };
 
-  const handleRegister = () => {
-    navigate("/register");
+  const handleLogin = () => {
+    navigate("/login");
   };
-
   return (
     <div className="login-main-div">
       <div className="login-header-div">
         <img src={img} height="50px" />
       </div>
-      <h1 className="dashboard-h1">Welcome back, </h1>
+      <h1 className="dashboard-h1">
+        You are a few steps of begin your journey,{" "}
+      </h1>
       <p className="login-welcome-p">
-        We happy to see you here again. Enter your username and password
+        We happy to see you here again. Enter your new username and password
       </p>
 
       <Form onSubmit={(e) => handleSubmit(e)}>
@@ -113,15 +118,15 @@ const Login = () => {
           onChange={(e) => onChange(e)}
         />
         <button className="login-button" type="submit">
-          Log In
+          Register
         </button>
       </Form>
       <Toaster position="top-center" richColors />
-      <h1 className="login-forgot-pwd-tag" onClick={handleRegister}>
-        Sign Up
-      </h1>
+      <button className="login-button" onClick={handleLogin}>
+        Back to Login
+      </button>
     </div>
   );
 };
 
-export default Login;
+export default Register;
